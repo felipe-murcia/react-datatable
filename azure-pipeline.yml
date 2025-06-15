@@ -1,0 +1,32 @@
+trigger:
+  - master
+
+pool:
+  name: my_agent_pool
+
+steps:
+  - task: NodeTool@0
+    inputs:
+      versionSpec: '20.x'
+    displayName: 'Instalar Node.js'
+
+  - script: |
+      npm install
+    displayName: 'Instalar dependencias'
+
+  - script: |
+      npm run build
+    displayName: 'Compilar aplicación React'
+
+  - task: CopyFiles@2
+    inputs:
+      contents: '**/*'
+      targetFolder: '$(Build.ArtifactStagingDirectory)'
+    displayName: 'Copiar archivos para artefacto'
+
+  - task: PublishBuildArtifacts@1
+    inputs:
+      pathToPublish: '$(Build.ArtifactStagingDirectory)'
+      artifactName: 'react-app'
+      publishLocation: 'Container'
+    displayName: 'Publicar artefactos'
