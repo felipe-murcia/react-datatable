@@ -20,7 +20,7 @@ steps:
 
   - task: CopyFiles@2
     inputs:
-      contents: '**/*'
+      contents: 'build/**'
       targetFolder: '$(Build.ArtifactStagingDirectory)'
     displayName: 'Copiar archivos para artefacto'
 
